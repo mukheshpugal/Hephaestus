@@ -7,6 +7,7 @@ args = parser.parse_args()
 
 BIN = lambda n, b : format(int(n), '0' + str(b) + 'b') # Converts numbers to binary with zeros before
 INSTRUCTION_LENGTH = 16
+MAX_INSTRUCTIONS = 256
 
 inputFile = args.input
 
@@ -44,7 +45,7 @@ def getMachineCode(line):
     else:
         raise Exception(f'{tokens[0]}')
 
-    machineCode += '0' * (16 - len(machineCode)) # Fill the rest with zeros
+    machineCode += '0' * (INSTRUCTION_LENGTH - len(machineCode)) # Fill the rest with zeros
 
     return machineCode
 
@@ -99,5 +100,5 @@ for number, line in enumerate(ASMLines):
 with open('instructionMemory.txt', 'w') as f:
     for machineCode in machineCodes:
         f.write(machineCode + '\n')
-    f.write(('x' * 16 + '\n') * (256 - len(ASMLines))) # Fill rest with x
+    f.write(('x' * INSTRUCTION_LENGTH + '\n') * (MAX_INSTRUCTIONS - len(ASMLines))) # Fill rest with x
     print('Code assebled succesfully')
